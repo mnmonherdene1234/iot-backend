@@ -29,7 +29,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(allowSpecificOrigins, policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "iot.websitedevelopers.lol")
+        policy.WithOrigins("http://localhost:5173", "https://iot.websitedevelopers.lol")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
