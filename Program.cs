@@ -23,10 +23,20 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-var app = builder.Build();
+var allowSpecificOrigins = "AllowSpecificOrigins";
 
-app.UsePathBase(new PathString("/v1/api"));
-app.UseRouting();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(allowSpecificOrigins, policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "iot.websitedevelopers.lol")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -41,5 +51,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(allowSpecificOrigins);
 
 app.Run();
