@@ -9,10 +9,12 @@ namespace IOTBackend.Controllers
     public class LightController : ControllerBase
     {
         private readonly DatabaseContext databaseContext;
+        private readonly ILogger<LightController> logger;
 
-        public LightController(DatabaseContext dc)
+        public LightController(DatabaseContext dc, ILogger<LightController> logger)
         {
             databaseContext = dc;
+            this.logger = logger;
         }
 
         [HttpPost]
@@ -29,6 +31,8 @@ namespace IOTBackend.Controllers
         public async Task<ActionResult<ICollection<Light>>> List()
         {
             var lights = await databaseContext.Lights.ToListAsync();
+
+            logger.LogInformation(Request.Host.Host);
 
             return Ok(lights);
         }
